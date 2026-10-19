@@ -1,0 +1,198 @@
+@import 'tailwindcss';
+
+/* Design tokens — "AERIS Tokens" variable collection in Figma */
+@theme {
+  --font-sans: 'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #141414;
+  --color-ink-80: #3b3b3b;
+  --color-muted: #6f6b65;
+  --color-line: #e3e0da;
+  --color-ivory: #f6f4f0;
+  --color-stone: #ece9e4;
+  --color-sand: #d7ccbc;
+  --color-sky: #9db6d1;
+  --color-sky-deep: #4a6a8f;
+  --color-cocoa: #4b3427;
+
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+}
+
+/* Text styles — Figma letter-spacing % maps 1:1 to em. Defined as utilities so variants (lg:) work. */
+@utility t-logo {
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  @media (width >= 64rem) {
+    font-size: 30px;
+  }
+}
+@utility t-micro {
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+@utility t-eyebrow {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+@utility t-nav {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+@utility t-display-xl {
+  font-weight: 300;
+  font-size: 38px;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  @media (width >= 64rem) {
+    font-size: 76px;
+    line-height: 1.02;
+  }
+}
+@utility t-display-l {
+  font-weight: 300;
+  font-size: 38px;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  @media (width >= 64rem) {
+    font-size: 48px;
+  }
+}
+@utility t-h2 {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  @media (width >= 64rem) {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+}
+@utility t-h3 {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+@utility t-h4 {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility t-body-l {
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  @media (width >= 64rem) {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+}
+@utility t-body {
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+@utility t-body-s {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+@utility t-price {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (width >= 48rem) {
+    .container-page {
+      padding-inline: 40px;
+    }
+  }
+  @media (width >= 64rem) {
+    .container-page {
+      padding-inline: 64px;
+    }
+  }
+
+  /* Horizontal rails that bleed to the right edge on small screens */
+  .rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .rail > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 64px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+  .on-dark :focus-visible,
+  .on-dark:focus-visible {
+    outline-color: #ffffff;
+  }
+  button {
+    cursor: pointer;
+  }
+}
