@@ -1,5 +1,8 @@
 name: Deploy to GitHub Pages
 
+# Single deployment workflow for https://ziahgg.github.io/Aeris/
+# Requires Settings → Pages → Source: "GitHub Actions".
+
 on:
   push:
     branches: [main]
@@ -7,10 +10,8 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# Allow one deployment at a time; don't cancel a run that is already deploying.
+# One deployment at a time; a newer push waits instead of cancelling a live deploy.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -19,9 +20,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -32,22 +35,28 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # vite.config.ts builds with the /Aeris/ base for https://ziahgg.github.io/Aeris/
-      - name: Build
+      # vite.config.ts builds with the /Aeris/ base path
+      - name: Build website
         run: npm run build
 
-      - uses: actions/configure-pages@v6
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v5
