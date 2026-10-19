@@ -26,28 +26,31 @@ npm run dev        # http://localhost:5173
 
 ## Deploying to GitHub Pages
 
-The workflow in `.github/workflows/deploy.yml` builds and deploys on every push to `main`
-(or manually from the Actions tab).
+Live URL: **https://ziahgg.github.io/Aeris/** (repository `ziahgg/Aeris`).
 
-1. Push this project to a GitHub repository.
-2. In the repository, open **Settings → Pages** and set **Source** to **GitHub Actions**.
-3. Push to `main`. The site publishes at `https://<user>.github.io/<repo>/`.
+The workflow in `.github/workflows/deploy.yml` uses the official Pages actions
+(`configure-pages`, `upload-pages-artifact`, `deploy-pages`). It runs on every push to `main`
+and can also be started manually from the **Actions** tab. It runs `npm ci`, `npm run lint` and
+`npm run build`, then publishes `dist/`.
+
+**One-time setup:** in the repository, open **Settings → Pages** and set
+**Build and deployment → Source** to **GitHub Actions**.
 
 ### Base path
 
-Project sites are served from a subpath (`/<repo>/`). `vite.config.ts` reads the base from the
-`BASE_PATH` environment variable, and the workflow sets it automatically from the repository
-name. Nothing needs editing if you rename the repo. Locally the base is `/`.
+GitHub serves this project site from `/Aeris/`. `vite.config.ts` uses the `/Aeris/` base for
+`vite build` and `vite preview`, and `/` for `npm run dev`. The path is case-sensitive and must
+match the repository name. If you rename the repository, change it in `vite.config.ts`.
+For a custom domain or a `<user>.github.io` repository, build with `BASE_PATH=/`.
 
-To test a production build under a subpath:
+To check the production build locally exactly as Pages will serve it:
 
 ```bash
-BASE_PATH=/aeris-homepage/ npm run build
-npx vite preview --base /aeris-homepage/
+npm run build
+npm run preview
 ```
 
-Then open `http://localhost:4173/aeris-homepage/`. For a user/organisation site
-(`<user>.github.io`) or a custom domain, set `BASE_PATH: /` in the workflow.
+Then open `http://localhost:4173/Aeris/`.
 
 ## Project structure
 
